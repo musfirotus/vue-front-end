@@ -1,13 +1,16 @@
 <template>
   <div>
-    <Index />
+    <Login />
   </div>
 </template>
 
 <script>
-import Index from "@/components/Login/Index"
+import Login from "@/components/Auth/Login"
 
 export default {
-  name: "Login"
+  name: "Login",
+  components: {
+    Login
+  }
 }
 </script>
