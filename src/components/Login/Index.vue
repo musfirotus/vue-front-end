@@ -4,6 +4,12 @@
       <div class="alert" v-if="errorMessage!==''">{{errorMessage}}</div>
       <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit="sendRequest">
         <h1 class="text-gray-700 font-bold mt-4 mb-8 text-xl">Login</h1>
+        <v-alert
+          color="error"
+          :value="error"
+          icon="close" >
+          The Username or the password are incorrect
+        </v-alert>
         <!-- Login -->
         <div class="mb-4">
           <label
@@ -50,38 +56,51 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+// import { mapActions, mapState } from "vuex";
 export default {
   name: "Login",
   data: () => ({
     username: "",
     password: "",
+    error: false
   }),
   created() {
     // this.reqLogin();
   },
   computed: {
-    ...mapState("Auth", ["errorMessage"]),
+    // ...mapState("Auth", ["errorMessage"]),
   },
   methods: {
-    ...mapActions("Auth", ["reqLogin"]),
-    sendRequest(e) {
-      e.preventDefault();
-      const error = [];
-      if (this.username === "") {
-        error.push("Username required");
-      }
-      if (this.password === "") {
-        error.push("Password required");
-      }
+    login(){
+      this.$store.dispatch("LOGIN", {
+        _username: this.username,
+        _password: this.password
+      })
+      .then(() => {
+        this.$router.push('/dashboard')
+      })
+      .catch(() => {
+        this.error = true
+      })
+    }
+    // ...mapActions("Auth", ["reqLogin"]),
+    // sendRequest(e) {
+    //   e.preventDefault();
+    //   const error = [];
+    //   if (this.username === "") {
+    //     error.push("Username required");
+    //   }
+    //   if (this.password === "") {
+    //     error.push("Password required");
+    //   }
 
-      if (error.length > 0) {
-        alert(error.join(",\r\n"));
-      } else {
-        this.reqLogin({ username: this.username, password: this.password });
-      }
-      return false;
-    },
+    //   if (error.length > 0) {
+    //     alert(error.join(",\r\n"));
+    //   } else {
+    //     this.reqLogin({ username: this.username, password: this.password });
+    //   }
+    //   return false;
+    // },
   },
 };
 </script>

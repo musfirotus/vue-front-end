@@ -2,6 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
+import User from './modules/user.js'
+
 import router from "../router/index";
 
 import Api from "../service/api";
@@ -76,6 +78,7 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     Auth,
+    User
   },
   plugins: [createPersistedState()],
 });
